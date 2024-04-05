@@ -127,7 +127,7 @@ def get_produce(requestData, sqlConnector):
     produce_raw_data = sqlConnector.search("farm_produce", {"farm_id": farm_id})
     print(produce_raw_data)
     for row in produce_raw_data:
-        print(row)
+        print(f"ROW FOUND: {row}")
         position_of_id = 0
         position_of_farm_id = 1
         position_of_produce = 2
@@ -137,4 +137,5 @@ def get_produce(requestData, sqlConnector):
         matching_produce["produce"] = row[position_of_produce]
         matching_produce["stock"] = row[position_of_stock]
         allProduces.append(matching_produce)
+        print(f"ADDED TO ALLPRODUCES: {allProduces}")
     return allProduces
