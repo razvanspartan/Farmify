@@ -1,19 +1,4 @@
 import mysql.connector
-class Repository:
-    def __init__(self):
-        self.__data = {}
-    def add(self, object):
-        # upload to sql
-        # take from sql
-        id = 0# init the id
-        self.__data[id] = object
-    def remove(self, object):
-        # search in sql
-        id = 0# if found, init the id
-        self.__data.pop(id)
-        # remove from sql
-    def get(self, id):
-        return self.__data[id]
 class SqlConnector:
     def __init__(self, host, user, password, database):
         self.host = host
@@ -22,7 +7,6 @@ class SqlConnector:
         self.database = database
         self.connection = None
         self.cursor = None
-        self.createTable()
 
     def connect(self):
         try:
@@ -55,12 +39,18 @@ class SqlConnector:
             return 1
     def search(self, table, data):
         try:
-            columns = ', '.join(data.keys())
-            entries = ' AND '.join([f"{key} = %s" for key in data])
-            query = f"SELECT * FROM {table} WHERE {entries}"
-            values = tuple(data.values())
-            self.cursor.execute(query, values)
-            return self.cursor.fetchall()
+            if len(data) != 0:
+                columns = ', '.join(data.keys())
+                entries = ' AND '.join([f"{key} = %s" for key in data])
+                query = f"SELECT * FROM {table} WHERE {entries}"
+                values = tuple(data.values())
+                self.cursor.execute(query, values)
+                return self.cursor.fetchall()
+            else:
+                query = f"SELECT * FROM {table}"
+                values = tuple(data.values())
+                self.cursor.execute(query, values)
+                return self.cursor.fetchall()
         except mysql.connector.Error as error:
             print("Error searching data:", error)
             return 1
