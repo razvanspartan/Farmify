@@ -1,8 +1,76 @@
-import firebase_admin
-from firebase_admin import credentials
-
-class FirebaseRepo:
+import mysql.connector
+class Repository:
     def __init__(self):
-        self.__cred = credentials.Certificate("farmify-3ad30-firebase-adminsdk-y9fj0-d6fb48051c.json")
-        firebase_admin.initialize_app(self.__cred)
+        self.__data = {}
+    def add(self, object):
+        # upload to sql
+        # take from sql
+        id = 0# init the id
+        self.__data[id] = object
+    def remove(self, object):
+        # search in sql
+        id = 0# if found, init the id
+        self.__data.pop(id)
+        # remove from sql
+    def get(self, id):
+        return self.__data[id]
+class SqlConnector:
+    def __init__(self, host, user, password, database):
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
+        self.connection = None
+        self.cursor = None
+        self.createTable()
 
+    def connect(self):
+        try:
+            self.connection = mysql.connector.connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                database=self.database
+            )
+            self.cursor = self.connection.cursor()
+            print("Connected to MySQL database")
+        except mysql.connector.Error as error:
+            print("Error: ", error)
+    def disconnect(self):
+        if self.connection.is_connected():
+            self.cursor.close()
+            self.connection.close()
+            print("Disconnected from MySQL database")
+    def insert(self, table, data):
+        try:
+            columns = ', '.join(data.keys())
+            entries = ', '.join(['%s'] * len(data))
+            query = f"INSERT INTO {table} ({columns}) VALUES ({entries})"
+            values = tuple(data.values())
+            self.cursor.execute(query, values)
+            self.connection.commit()
+            return 0
+        except mysql.connector.Error as error:
+            print("Error inserting data:", error)
+            return 1
+    def search(self, table, data):
+        try:
+            columns = ', '.join(data.keys())
+            entries = ' AND '.join([f"{key} = %s" for key in data])
+            query = f"SELECT * FROM {table} WHERE {entries}"
+            values = tuple(data.values())
+            self.cursor.execute(query, values)
+            return self.cursor.fetchall()
+        except mysql.connector.Error as error:
+            print("Error searching data:", error)
+            return 1
+    def isDataInTable(self, table, data):
+        try:
+            result = self.search(table, data)
+            if result:
+                return True
+            else:
+                return False
+        except mysql.connector.Error as error:
+            print("Error searching data:", error)
+            return 1
