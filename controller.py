@@ -53,3 +53,19 @@ def add_user(requestData, sqlConnector):
         return {"code": 0, "message": "success"}
     except:
         return {"code": 1, "message": "error adding user"}
+
+
+def add_farm(requestData, sqlConnector):
+    owner = requestData["owner"]
+    name = requestData["name"]
+    description = requestData["description"]
+    latitude = requestData["latitude"]
+    longitude = requestData["longitude"]
+
+
+    userData = {"user_id": owner, "farm_name": name, "description": description, "latitude": latitude, "longitude": longitude}
+    try:
+        sqlConnector.insert("farms", userData)
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error adding farm"}
