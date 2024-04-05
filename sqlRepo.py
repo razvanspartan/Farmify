@@ -66,6 +66,8 @@ class SqlConnector:
             return 1
 
     def update(self, table, data, condition):
+        if len(data) == 0:
+            return 0
         try:
             set_values = ', '.join([f"{key} = %s" for key in data.keys()])
             where_condition = ' AND '.join([f"{key} = %s" for key in condition.keys()])
