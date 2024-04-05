@@ -25,7 +25,6 @@ class SqlConnector:
         self.database = database
         self.connection = None
         self.cursor = None
-        self.createTable()
 
     def connect(self):
         try:
