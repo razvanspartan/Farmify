@@ -1,0 +1,21 @@
+# Ignore Visual Studio Code settings directory
+.vscode/
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows thumbnail cache files
+Thumbs.db
+
+# Ignore Node.js dependencies (adjust this if you're using a different package manager)
+node_modules/
+
+# Ignore any compiled binaries or build outputs
+*.exe
+*.out
+*.dll
+*.so
+*.dylib
