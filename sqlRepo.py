@@ -64,3 +64,16 @@ class SqlConnector:
         except mysql.connector.Error as error:
             print("Error searching data:", error)
             return 1
+
+    def update(self, table, data, condition):
+        try:
+            set_values = ', '.join([f"{key} = %s" for key in data.keys()])
+            where_condition = ' AND '.join([f"{key} = %s" for key in condition.keys()])
+            query = f"UPDATE {table} SET {set_values} WHERE {where_condition}"
+            values = tuple(data.values()) + tuple(condition.values())
+            self.cursor.execute(query, values)
+            self.connection.commit()
+            return 0
+        except mysql.connector.Error as error:
+            print("Error updating data:", error)
+            return 1
