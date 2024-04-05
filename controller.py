@@ -98,3 +98,43 @@ def update_user(requestData, sqlConnector):
         return {"code": 0, "message": "success"}
     except:
         return {"code": 1, "message": "error adding user"}
+
+def update_farm(requestData, sqlConnector):
+    farm_id = requestData["id"]
+    requestData.pop("id")
+    userDataToUpdate = requestData
+    try:
+        sqlConnector.update("farms", userDataToUpdate, {"farm_id": farm_id})
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error adding user"}
+
+def add_produce(requestData, sqlConnector):
+    farm_id = requestData["farm_id"]
+    produce = requestData["produce"]
+    stock = requestData["stock"]
+
+    userData = {"farm_id": farm_id, "produce": produce, "stock": stock}
+    try:
+        sqlConnector.insert("farm_produce", userData)
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error adding farm"}
+
+def get_produce(requestData, sqlConnector):
+    farm_id = requestData["farm_id"]
+    allProduces = []
+    produce_raw_data = sqlConnector.search("farm_produce", {"farm_id": farm_id})
+    print(produce_raw_data)
+    for row in produce_raw_data:
+        print(row)
+        position_of_id = 0
+        position_of_farm_id = 1
+        position_of_produce = 2
+        position_of_stock = 3
+
+        matching_produce = {}
+        matching_produce["produce"] = row[position_of_produce]
+        matching_produce["stock"] = row[position_of_stock]
+        allProduces.append(matching_produce)
+    return allProduces

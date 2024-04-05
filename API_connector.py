@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
-from controller import get_all_farms, get_farm, add_user, add_farm, get_user, update_user
+from controller import get_all_farms, get_farm, add_user, add_farm, get_user, update_user, update_farm, add_produce, get_produce
 
 
 app = Flask(__name__)
@@ -81,6 +81,35 @@ def update_user_route():
     if request.method == 'POST':
         requestData = request.get_json()
         resultData = update_user(requestData, sqlConnector)
+
+        return jsonify(resultData)
+    else:
+        return jsonify({"message": "Method not allowed"}), 405
+
+@app.route('/api/update_farm', methods=['POST'])
+def update_farm_route():
+    if request.method == 'POST':
+        requestData = request.get_json()
+        resultData = update_farm(requestData, sqlConnector)
+
+        return jsonify(resultData)
+    else:
+        return jsonify({"message": "Method not allowed"}), 405
+
+@app.route('/api/add_produce', methods=['POST'])
+def add_produce_route():
+    if request.method == 'POST':
+        requestData = request.get_json()
+        resultData = add_produce(requestData, sqlConnector)
+        return jsonify(resultData)
+    else:
+        return jsonify({"message": "Method not allowed"}), 405
+
+@app.route('/api/get_produce', methods=['POST'])
+def get_produce_route():
+    if request.method == 'POST':
+        requestData = request.get_json()
+        resultData = get_produce(requestData, sqlConnector)
 
         return jsonify(resultData)
     else:
