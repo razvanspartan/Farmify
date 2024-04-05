@@ -1,6 +1,10 @@
+import re
+
+
 def get_all_farms(sqlConnector):
     all_farms = []
     farms_raw_data = sqlConnector.search("farms", {})
+    print(farms_raw_data)
     for row in farms_raw_data:
         position_of_id = 0
         position_of_name = 2
@@ -34,3 +38,18 @@ def get_farm(requestData, sqlConnector):
         matching_farm["latitude"] = row[position_of_latitude]
         matching_farm["longitude"] = row[position_of_longitude]
     return matching_farm
+
+def add_user(requestData, sqlConnector):
+    id = requestData["id"]
+    is_farmer = requestData["is_farmer"]
+    name = requestData["name"]
+    email = requestData["email"]
+    # re.match(email, "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,}$")
+    # T0DO when having time do this
+
+    userData = {"user_id": id, "is_farmer": is_farmer, "name": name, "email": email}
+    try:
+        sqlConnector.insert("users", userData)
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error adding user"}
