@@ -136,6 +136,7 @@ Request: JSON data
 (Optional) is_farmer: Updated value for the is_farmer field
 (Optional) name: Updated value for the name field
 (Optional) email: Updated value for the email field
+(Optional) subscription_type: Updated value for the susbrviption plan
 }
 ```
 Response: JSON data
@@ -272,7 +273,7 @@ or
 }
 ```
 Response: JSON array
-````
+```
 [
   {
     user_id: ID of the user placing the order
@@ -281,3 +282,21 @@ Response: JSON array
   },
   {...}
 ]
+```
+
+### /delete_produce
+Method: POSThttps://github.com/razvanspartan/Farmify/blob/master/README.md
+Description: Delete produces by given data
+Request: JSON data
+```
+{
+  produce_id: product ID
+}
+```
+Response: JSON data
+```
+{
+  code: 0 for success, 1 for failure
+  message: Success or failure message
+}
+```
