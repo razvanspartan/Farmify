@@ -271,8 +271,13 @@ def update_produce(requestData, sqlConnector):
 
 def complete_order(requestData, sqlConnector):
     id = requestData["id"]
+    farm_id = requestData["farm_id"]
+    farm_data = get_farm({"id": farm_id}, sqlConnector)
+    print(farm_data)
+    farm_orders = int(farm_data["orders"]) - 1
     try:
         sqlConnector.delete("farm_produce", {"id": id})
+        increase_orders_to_farm({"id": farm_id, "farm_orders": farm_orders}, sqlConnector)
         return {"code": 0, "message": "success"}
     except:
         return {"code": 1, "message": "error editing produce"}
