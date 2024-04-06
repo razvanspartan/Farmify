@@ -174,27 +174,29 @@ def get_produce_data(requestData, sqlConnector):
 
 
 def get_produce(requestData, sqlConnector):
-    produce_raw_data = get_produce_data(requestData, sqlConnector)
-    allProduces = []
-    print("\n\n\n\n\n\nAICI\n\n\n")
-    print(produce_raw_data)
-    import pdb; pdb.set_trace()
-    for row in produce_raw_data:
-        print(f"ROW FOUND: {row}")
-        position_of_id = 0
-        position_of_farm_id = 1
-        position_of_produce = 2
-        position_of_stock = 3
-        position_of_price = 4
+    try:
+        produce_raw_data = get_produce_data(requestData, sqlConnector)
+        allProduces = []
+        print("\n\n\n\n\n\nAICI\n\n\n")
+        print(produce_raw_data)
+        for row in produce_raw_data:
+            print(f"ROW FOUND: {row}")
+            position_of_id = 0
+            position_of_farm_id = 1
+            position_of_produce = 2
+            position_of_stock = 3
+            position_of_price = 4
 
-        matching_produce = {}
-        matching_produce["id"] = row[position_of_id]
-        matching_produce["produce"] = row[position_of_produce]
-        matching_produce["stock"] = row[position_of_stock]
-        matching_produce["price"] = row[position_of_price]
-        allProduces.append(matching_produce)
-        print(f"ADDED TO ALLPRODUCES: {allProduces}")
-    return allProduces
+            matching_produce = {}
+            matching_produce["id"] = row[position_of_id]
+            matching_produce["produce"] = row[position_of_produce]
+            matching_produce["stock"] = row[position_of_stock]
+            matching_produce["price"] = row[position_of_price]
+            allProduces.append(matching_produce)
+            print(f"ADDED TO ALLPRODUCES: {allProduces}")
+        return allProduces
+    except:
+        import pdb; pdb.set_trace()
 
 def increase_orders_to_farm(requestData, sqlConnector):
     update_farm(requestData, sqlConnector)
