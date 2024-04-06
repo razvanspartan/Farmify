@@ -272,7 +272,7 @@ or
 }
 ```
 Response: JSON array
-````
+```
 [
   {
     user_id: ID of the user placing the order
@@ -281,3 +281,21 @@ Response: JSON array
   },
   {...}
 ]
+```
+
+### /delete_produce
+Method: POST
+Description: Delete produces by given data
+Request: JSON data
+```
+{
+  product_id: product ID
+}
+```
+Response: JSON data
+```
+{
+  code: 0 for success, 1 for failure
+  message: Success or failure message
+}
+```
