@@ -39,6 +39,30 @@ def get_farm(requestData, sqlConnector):
         matching_farm["longitude"] = row[position_of_longitude]
     return matching_farm
 
+def get_farms(requestData, sqlConnector):
+    id = requestData["id"]
+    farms_raw_data = sqlConnector.search("farms", {"user_id": id})
+    print(farms_raw_data)
+    good_data = []
+    for row in farms_raw_data:
+        print(row)
+        position_of_id = 0
+        position_of_owner = 1
+        position_of_name = 2
+        position_of_description = 3
+        position_of_latitude = 4
+        position_of_longitude = 5
+
+        matching_farm = {}
+        matching_farm["id"] = row[position_of_id]
+        matching_farm["owner"] = row[position_of_owner]
+        matching_farm["name"] = row[position_of_name]
+        matching_farm["description"] = row[position_of_description]
+        matching_farm["latitude"] = row[position_of_latitude]
+        matching_farm["longitude"] = row[position_of_longitude]
+        good_data.append(matching_farm)
+    return good_data
+
 def get_user(requestData, sqlConnector):
     id = requestData["id"]
     matching_user = {}
