@@ -45,7 +45,7 @@ def get_farm(requestData, sqlConnector):
             matching_farm["orders"] = row[position_of_orders]
             matching_farm["image"] = row[position_of_image]
         return matching_farm
-    except:
+    except Exception as e:
         import pdb; pdb.set_trace()
 
 def get_farms(requestData, sqlConnector):
@@ -128,7 +128,7 @@ def add_farm(requestData, sqlConnector):
         if userData["is_farmer"] == 0:
             update_user({"id": owner, "is_farmer": 1}, sqlConnector)
         return {"code": 0, "message": "success"}
-    except:
+    except Exception as e:
         return {"code": 1, "message": "error adding farm"}
 
 
