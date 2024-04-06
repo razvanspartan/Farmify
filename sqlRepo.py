@@ -30,6 +30,7 @@ class SqlConnector:
             columns = ', '.join(data.keys())
             entries = ', '.join(['%s'] * len(data))
             query = f"INSERT INTO {table} ({columns}) VALUES ({entries})"
+            print(query)
             values = tuple(data.values())
             self.cursor.execute(query, values)
             self.connection.commit()

@@ -82,6 +82,7 @@ def add_farm(requestData, sqlConnector):
 
 
     userData = {"user_id": owner, "farm_name": name, "description": description, "latitude": latitude, "longitude": longitude}
+    print(userData)
     try:
         sqlConnector.insert("farms", userData)
         return {"code": 0, "message": "success"}
