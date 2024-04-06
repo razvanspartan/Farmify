@@ -176,6 +176,7 @@ def get_produce(requestData, sqlConnector):
         position_of_price = 4
 
         matching_produce = {}
+        matching_produce["id"] = row[position_of_id]
         matching_produce["produce"] = row[position_of_produce]
         matching_produce["stock"] = row[position_of_stock]
         matching_produce["price"] = row[position_of_price]
@@ -244,3 +245,12 @@ def get_orders(requestData, sqlConnector):
 
         good_data.append(matching_order)
     return good_data
+
+def delete_produce(requestData, sqlConnector):
+    id = requestData["produce_id"]
+    where_condition = {"id": id}
+    try:
+        sqlConnector.delete("farm_produce", where_condition)
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error adding farm"}

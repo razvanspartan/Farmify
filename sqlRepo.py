@@ -80,3 +80,17 @@ class SqlConnector:
         except mysql.connector.Error as error:
             print("Error updating data:", error)
             return 1
+
+    def delete(self, table, condition):
+        if len(condition) == 0:
+            return 0
+        try:
+            where_condition = ' AND '.join([f"{key} = %s" for key in condition.keys()])
+            query = f"DELETE FROM {table} WHERE {where_condition}"
+            values = tuple(condition.values())
+            self.cursor.execute(query, values)
+            self.connection.commit()
+            return 0
+        except mysql.connector.Error as error:
+            print("Error deleting data:", error)
+            return 1
