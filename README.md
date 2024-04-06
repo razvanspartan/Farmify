@@ -284,12 +284,12 @@ Response: JSON array
 ```
 
 ### /delete_produce
-Method: POST
+Method: POSThttps://github.com/razvanspartan/Farmify/blob/master/README.md
 Description: Delete produces by given data
 Request: JSON data
 ```
 {
-  product_id: product ID
+  produce_id: product ID
 }
 ```
 Response: JSON data
