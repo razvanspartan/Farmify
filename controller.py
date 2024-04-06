@@ -9,9 +9,11 @@ def get_all_farms(sqlConnector):
         position_of_id = 0
         position_of_name = 2
         position_of_description = 3
+        position_of_image = 7
         object = {"id": row[position_of_id],
                   "name": row[position_of_name],
-                  "description": row[position_of_description]}
+                  "description": row[position_of_description],
+                  "image": row[position_of_image]}
 
         all_farms.append(object)
     return all_farms
@@ -31,6 +33,7 @@ def get_farm(requestData, sqlConnector):
         position_of_latitude = 4
         position_of_longitude = 5
         position_of_orders = 6
+        position_of_image = 7
 
         matching_farm["id"] = row[position_of_id]
         matching_farm["owner"] = row[position_of_owner]
@@ -39,6 +42,7 @@ def get_farm(requestData, sqlConnector):
         matching_farm["latitude"] = row[position_of_latitude]
         matching_farm["longitude"] = row[position_of_longitude]
         matching_farm["orders"] = row[position_of_orders]
+        matching_farm["image"] = row[position_of_image]
     return matching_farm
 
 def get_farms(requestData, sqlConnector):
@@ -55,6 +59,7 @@ def get_farms(requestData, sqlConnector):
         position_of_latitude = 4
         position_of_longitude = 5
         position_of_orders = 6
+        position_of_image = 7
 
         matching_farm = {}
         matching_farm["id"] = row[position_of_id]
@@ -64,6 +69,7 @@ def get_farms(requestData, sqlConnector):
         matching_farm["latitude"] = row[position_of_latitude]
         matching_farm["longitude"] = row[position_of_longitude]
         matching_farm["orders"] = row[position_of_orders]
+        matching_farm["image"] = row[position_of_image]
         good_data.append(matching_farm)
     return good_data
 
