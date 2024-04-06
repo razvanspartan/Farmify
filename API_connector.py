@@ -14,6 +14,13 @@ def runFlask(sqlConnectorInit):
     sqlConnector.connect()
     app.run(host='0.0.0.0', debug=True)
 
+@app.after_request
+def add_no_cache_headers(response):
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response
+
 @app.route('/api/test', methods=['GET', 'POST'])
 def test():
     if request.method == 'GET':
@@ -123,3 +130,13 @@ def get_produce_route():
         return jsonify(resultData)
     else:
         return jsonify({"message": "Method not allowed"}), 405
+
+
+# @app.route('/api/add_', methods=['POST'])
+# def add_user_route():
+#     if request.method == 'POST':
+#         requestData = request.get_json()
+#         resultData = add_user(requestData, sqlConnector)
+#         return jsonify(resultData)
+#     else:
+#         return jsonify({"message": "Method not allowed"}), 405
