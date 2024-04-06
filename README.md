@@ -136,6 +136,7 @@ Request: JSON data
 (Optional) is_farmer: Updated value for the is_farmer field
 (Optional) name: Updated value for the name field
 (Optional) email: Updated value for the email field
+(Optional) subscription_type: Updated value for the susbrviption plan
 }
 ```
 Response: JSON data
