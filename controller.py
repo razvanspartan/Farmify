@@ -235,12 +235,14 @@ def get_orders(requestData, sqlConnector):
     good_data = []
     for row in orders_raw_data:
         print(row)
+        position_of_order_id = 0
         position_of_produce_id = 2
         position_of_amount = 3
         produce = get_produce_data({"produce_id": row[position_of_produce_id]}, sqlConnector)[0]
         position_of_user_id = 1
 
         matching_order = {}
+        matching_order["order_id"] = row[position_of_order_id]
         matching_order["produce_id"] = row[position_of_produce_id]
         matching_order["produce_name"] = produce[2]
         matching_order["amount"] = row[position_of_amount]
