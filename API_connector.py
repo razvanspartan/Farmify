@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
-from controller import get_all_farms, get_farm, get_farms, add_user, add_farm, get_user, update_user, update_farm, add_produce, get_produce, add_order
+from controller import get_all_farms, get_farm, get_farms, add_user, add_farm, get_user, update_user, update_farm, add_produce, get_produce, add_order, get_orders
 
 
 app = Flask(__name__)
@@ -137,6 +137,15 @@ def add_order_route():
     if request.method == 'POST':
         requestData = request.get_json()
         resultData = add_order(requestData, sqlConnector)
+        return jsonify(resultData)
+    else:
+        return jsonify({"message": "Method not allowed"}), 405
+
+@app.route('/api/get_orders', methods=['POST'])
+def get_orders_route():
+    if request.method == 'POST':
+        requestData = request.get_json()
+        resultData = get_orders(requestData, sqlConnector)
         return jsonify(resultData)
     else:
         return jsonify({"message": "Method not allowed"}), 405

@@ -204,3 +204,38 @@ def add_order(requestData, sqlConnector):
         return {"code": 0, "message": "success"}
     except:
         return {"code": 1, "message": "error adding farm"}
+
+
+def get_farm_orders(requestData, sqlConnector):
+    farm_id = requestData["farm_id"]
+    farm_produce = get_produce_data({"farm_id": farm_id}, sqlConnector)
+    farm_orders = []
+    for produce in farm_produce:
+        produce_id = produce[0]
+        newData = sqlConnector.search("order_list", {"produce_id": produce_id})
+        farm_orders += newData
+    return farm_orders
+
+def get_orders(requestData, sqlConnector):
+    try:
+        id = requestData["user_id"]
+        orders_raw_data = sqlConnector.search("order_list", {"user_id": id})
+    except KeyError:
+        id = requestData["farm_id"]
+        orders_raw_data = get_farm_orders({"farm_id": id}, sqlConnector)
+    print(orders_raw_data)
+    good_data = []
+    for row in orders_raw_data:
+        print(row)
+        position_of_produce_id = 2
+        position_of_amount = 3
+        produce = get_produce_data({"produce_id": row[position_of_produce_id]}, sqlConnector)[0]
+        position_of_user_id = 1
+
+        matching_order = {}
+        matching_order["produce_id"] = row[position_of_produce_id]
+        matching_order["amount"] = row[position_of_amount]
+        matching_order["user_id"] = row[position_of_user_id]
+
+        good_data.append(matching_order)
+    return good_data
