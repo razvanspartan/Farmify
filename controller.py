@@ -85,7 +85,6 @@ def get_user(requestData, sqlConnector):
         position_of_name = 2
         position_of_email = 3
         position_of_subscription = 4
-        position_of_image = 5
 
         matching_user["id"] = row[position_of_id]
         matching_user["is_farmer"] = row[position_of_is_farmer]
