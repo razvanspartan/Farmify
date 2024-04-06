@@ -30,6 +30,7 @@ def get_farm(requestData, sqlConnector):
         position_of_description = 3
         position_of_latitude = 4
         position_of_longitude = 5
+        position_of_orders = 6
 
         matching_farm["id"] = row[position_of_id]
         matching_farm["owner"] = row[position_of_owner]
@@ -37,6 +38,7 @@ def get_farm(requestData, sqlConnector):
         matching_farm["description"] = row[position_of_description]
         matching_farm["latitude"] = row[position_of_latitude]
         matching_farm["longitude"] = row[position_of_longitude]
+        matching_farm["orders"] = row[position_of_orders]
     return matching_farm
 
 def get_farms(requestData, sqlConnector):
@@ -52,6 +54,7 @@ def get_farms(requestData, sqlConnector):
         position_of_description = 3
         position_of_latitude = 4
         position_of_longitude = 5
+        position_of_orders = 6
 
         matching_farm = {}
         matching_farm["id"] = row[position_of_id]
@@ -60,6 +63,7 @@ def get_farms(requestData, sqlConnector):
         matching_farm["description"] = row[position_of_description]
         matching_farm["latitude"] = row[position_of_latitude]
         matching_farm["longitude"] = row[position_of_longitude]
+        matching_farm["orders"] = row[position_of_orders]
         good_data.append(matching_farm)
     return good_data
 
@@ -146,11 +150,20 @@ def add_produce(requestData, sqlConnector):
     except:
         return {"code": 1, "message": "error adding farm"}
 
+
+def get_produce_data(requestData, sqlConnector):
+    try:
+        farm_id = requestData["farm_id"]
+        produce_raw_data = sqlConnector.search("farm_produce", {"farm_id": farm_id})
+    except KeyError:
+        produce_id = requestData["produce_id"]
+        produce_raw_data = sqlConnector.search("farm_produce", {"id": produce_id})
+    return produce_raw_data
+
+
 def get_produce(requestData, sqlConnector):
-    farm_id = requestData["farm_id"]
+    produce_raw_data = get_produce_data(requestData, sqlConnector)
     allProduces = []
-    produce_raw_data = sqlConnector.search("farm_produce", {"farm_id": farm_id})
-    print(produce_raw_data)
     for row in produce_raw_data:
         print(f"ROW FOUND: {row}")
         position_of_id = 0
@@ -164,3 +177,30 @@ def get_produce(requestData, sqlConnector):
         allProduces.append(matching_produce)
         print(f"ADDED TO ALLPRODUCES: {allProduces}")
     return allProduces
+
+def increase_orders_to_farm(requestData, sqlConnector):
+    update_farm(requestData, sqlConnector)
+
+def add_order(requestData, sqlConnector):
+    user_id = requestData["user_id"]
+    produce_id = requestData["produce_id"]
+    amount = requestData["amount"]
+
+    position_of_farm_id = 1
+    position_of_stock = 3
+
+    produce = get_produce_data({"produce_id": produce_id}, sqlConnector)[0]
+    if produce[position_of_stock] < amount:
+        return {"code": 2, "message": "not enough stock"}
+    orderData = {"user_id": user_id, "produce_id": produce_id, "amount": amount}
+    farm_id = produce[position_of_farm_id]
+    print(farm_id)
+    farm_data = get_farm({"id": farm_id}, sqlConnector)
+    print(farm_data)
+    farm_orders = int(farm_data["orders"]) + 1
+    try:
+        sqlConnector.insert("order_list", orderData)
+        increase_orders_to_farm({"id": farm_id, "order_number": farm_orders}, sqlConnector)
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error adding farm"}
