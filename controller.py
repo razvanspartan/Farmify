@@ -267,3 +267,12 @@ def update_produce(requestData, sqlConnector):
         return {"code": 0, "message": "success"}
     except:
         return {"code": 1, "message": "error editing produce"}
+
+
+def complete_order(requestData, sqlConnector):
+    id = requestData["id"]
+    try:
+        sqlConnector.delete("farm_produce", {"id": id})
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error editing produce"}
