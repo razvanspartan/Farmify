@@ -178,6 +178,7 @@ def get_produce(requestData, sqlConnector):
     allProduces = []
     print("\n\n\n\n\n\nAICI\n\n\n")
     print(produce_raw_data)
+    import pdb; pdb.set_trace()
     for row in produce_raw_data:
         print(f"ROW FOUND: {row}")
         position_of_id = 0
