@@ -176,6 +176,8 @@ def get_produce_data(requestData, sqlConnector):
 def get_produce(requestData, sqlConnector):
     produce_raw_data = get_produce_data(requestData, sqlConnector)
     allProduces = []
+    print("\n\n\n\n\n\nAICI\N\N\N")
+    print(produce_raw_data)
     for row in produce_raw_data:
         print(f"ROW FOUND: {row}")
         position_of_id = 0
