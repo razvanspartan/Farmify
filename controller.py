@@ -100,10 +100,11 @@ def add_user(requestData, sqlConnector):
     is_farmer = requestData["is_farmer"]
     name = requestData["name"]
     email = requestData["email"]
+    image = requestData["image"]
     # re.match(email, "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,}$")
     # T0DO when having time do this
 
-    userData = {"user_id": id, "is_farmer": is_farmer, "name": name, "email": email}
+    userData = {"user_id": id, "is_farmer": is_farmer, "name": name, "email": email, "image": image}
     try:
         sqlConnector.insert("users", userData)
         return {"code": 0, "message": "success"}
@@ -117,8 +118,9 @@ def add_farm(requestData, sqlConnector):
     description = requestData["description"]
     latitude = requestData["latitude"]
     longitude = requestData["longitude"]
+    image = requestData["image"]
 
-    farmData = {"user_id": owner, "farm_name": name, "description": description, "latitude": latitude, "longitude": longitude}
+    farmData = {"user_id": owner, "farm_name": name, "description": description, "latitude": latitude, "longitude": longitude, "image": image}
     print(farmData)
     try:
         sqlConnector.insert("farms", farmData)
