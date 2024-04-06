@@ -20,30 +20,33 @@ def get_all_farms(sqlConnector):
 
 
 def get_farm(requestData, sqlConnector):
-    id = requestData["id"]
-    matching_farm = {}
-    farms_raw_data = sqlConnector.search("farms", {"farm_id": id})
-    print(farms_raw_data)
-    for row in farms_raw_data:
-        print(row)
-        position_of_id = 0
-        position_of_owner = 1
-        position_of_name = 2
-        position_of_description = 3
-        position_of_latitude = 4
-        position_of_longitude = 5
-        position_of_orders = 6
-        position_of_image = 7
+    try:
+        id = requestData["id"]
+        matching_farm = {}
+        farms_raw_data = sqlConnector.search("farms", {"farm_id": id})
+        print(farms_raw_data)
+        for row in farms_raw_data:
+            print(row)
+            position_of_id = 0
+            position_of_owner = 1
+            position_of_name = 2
+            position_of_description = 3
+            position_of_latitude = 4
+            position_of_longitude = 5
+            position_of_orders = 6
+            position_of_image = 7
 
-        matching_farm["id"] = row[position_of_id]
-        matching_farm["owner"] = row[position_of_owner]
-        matching_farm["name"] = row[position_of_name]
-        matching_farm["description"] = row[position_of_description]
-        matching_farm["latitude"] = row[position_of_latitude]
-        matching_farm["longitude"] = row[position_of_longitude]
-        matching_farm["orders"] = row[position_of_orders]
-        matching_farm["image"] = row[position_of_image]
-    return matching_farm
+            matching_farm["id"] = row[position_of_id]
+            matching_farm["owner"] = row[position_of_owner]
+            matching_farm["name"] = row[position_of_name]
+            matching_farm["description"] = row[position_of_description]
+            matching_farm["latitude"] = row[position_of_latitude]
+            matching_farm["longitude"] = row[position_of_longitude]
+            matching_farm["orders"] = row[position_of_orders]
+            matching_farm["image"] = row[position_of_image]
+        return matching_farm
+    except:
+        import pdb; pdb.set_trace()
 
 def get_farms(requestData, sqlConnector):
     id = requestData["id"]
