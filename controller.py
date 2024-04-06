@@ -168,12 +168,16 @@ def add_produce(requestData, sqlConnector):
 
 def get_produce_data(requestData, sqlConnector):
     try:
-        farm_id = requestData["farm_id"]
-        produce_raw_data = sqlConnector.search("farm_produce", {"farm_id": farm_id})
-    except KeyError:
-        produce_id = requestData["produce_id"]
-        produce_raw_data = sqlConnector.search("farm_produce", {"id": produce_id})
-    return produce_raw_data
+        try:
+            farm_id = requestData["farm_id"]
+            produce_raw_data = sqlConnector.search("farm_produce", {"farm_id": farm_id})
+        except KeyError:
+            produce_id = requestData["produce_id"]
+            produce_raw_data = sqlConnector.search("farm_produce", {"id": produce_id})
+        return produce_raw_data
+    except Exception as e:
+        import pdb; pdb.set_trace()
+
 
 
 def get_produce(requestData, sqlConnector):
@@ -198,7 +202,7 @@ def get_produce(requestData, sqlConnector):
             allProduces.append(matching_produce)
             print(f"ADDED TO ALLPRODUCES: {allProduces}")
         return allProduces
-    except:
+    except Exception as e:
         import pdb; pdb.set_trace()
 
 def increase_orders_to_farm(requestData, sqlConnector):
