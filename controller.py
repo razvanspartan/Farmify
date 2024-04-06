@@ -108,11 +108,13 @@ def add_farm(requestData, sqlConnector):
     latitude = requestData["latitude"]
     longitude = requestData["longitude"]
 
-
-    userData = {"user_id": owner, "farm_name": name, "description": description, "latitude": latitude, "longitude": longitude}
-    print(userData)
+    farmData = {"user_id": owner, "farm_name": name, "description": description, "latitude": latitude, "longitude": longitude}
+    print(farmData)
     try:
-        sqlConnector.insert("farms", userData)
+        sqlConnector.insert("farms", farmData)
+        userData = get_user({"id": owner}, sqlConnector)
+        if userData["is_farmer"] == 0:
+            update_user({"id": owner, "is_farmer": 1}, sqlConnector)
         return {"code": 0, "message": "success"}
     except:
         return {"code": 1, "message": "error adding farm"}
@@ -142,8 +144,9 @@ def add_produce(requestData, sqlConnector):
     farm_id = requestData["farm_id"]
     produce = requestData["produce"]
     stock = requestData["stock"]
+    price = requestData["price"]
 
-    userData = {"farm_id": farm_id, "produce": produce, "stock": stock}
+    userData = {"farm_id": farm_id, "produce": produce, "stock": stock, "price": price}
     try:
         sqlConnector.insert("farm_produce", userData)
         return {"code": 0, "message": "success"}
@@ -170,10 +173,12 @@ def get_produce(requestData, sqlConnector):
         position_of_farm_id = 1
         position_of_produce = 2
         position_of_stock = 3
+        position_of_price = 4
 
         matching_produce = {}
         matching_produce["produce"] = row[position_of_produce]
         matching_produce["stock"] = row[position_of_stock]
+        matching_produce["price"] = row[position_of_price]
         allProduces.append(matching_produce)
         print(f"ADDED TO ALLPRODUCES: {allProduces}")
     return allProduces
