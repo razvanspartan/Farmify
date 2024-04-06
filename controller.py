@@ -242,6 +242,7 @@ def get_orders(requestData, sqlConnector):
 
         matching_order = {}
         matching_order["produce_id"] = row[position_of_produce_id]
+        matching_order["produce_name"] = produce[2]
         matching_order["amount"] = row[position_of_amount]
         matching_order["user_id"] = row[position_of_user_id]
 
