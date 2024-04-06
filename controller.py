@@ -78,11 +78,13 @@ def get_user(requestData, sqlConnector):
         position_of_is_farmer = 1
         position_of_name = 2
         position_of_email = 3
+        position_of_subscription = 3
 
         matching_user["id"] = row[position_of_id]
         matching_user["is_farmer"] = row[position_of_is_farmer]
         matching_user["name"] = row[position_of_name]
         matching_user["email"] = row[position_of_email]
+        matching_user["subscription_type"] = row[position_of_subscription]
     return matching_user
 
 def add_user(requestData, sqlConnector):
