@@ -92,7 +92,6 @@ def get_user(requestData, sqlConnector):
         matching_user["name"] = row[position_of_name]
         matching_user["email"] = row[position_of_email]
         matching_user["subscription_type"] = row[position_of_subscription]
-        matching_user["image"] = row[position_of_image]
     return matching_user
 
 def add_user(requestData, sqlConnector):
@@ -100,11 +99,10 @@ def add_user(requestData, sqlConnector):
     is_farmer = requestData["is_farmer"]
     name = requestData["name"]
     email = requestData["email"]
-    image = requestData["image"]
     # re.match(email, "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,}$")
     # T0DO when having time do this
 
-    userData = {"user_id": id, "is_farmer": is_farmer, "name": name, "email": email, "image": image}
+    userData = {"user_id": id, "is_farmer": is_farmer, "name": name, "email": email}
     try:
         sqlConnector.insert("users", userData)
         return {"code": 0, "message": "success"}
