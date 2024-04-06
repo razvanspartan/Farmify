@@ -200,8 +200,10 @@ Response: JSON array of produce objects
 ```
 [
     {
+        "id:: the id of the produce
         "produce": name of the produce,
         "stock": quantity available (float)
+        "price": the price of the produce
     },
     {
         ...
