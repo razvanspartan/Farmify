@@ -256,3 +256,13 @@ def delete_produce(requestData, sqlConnector):
         return {"code": 0, "message": "success"}
     except:
         return {"code": 1, "message": "error adding farm"}
+
+def update_produce(requestData, sqlConnector):
+    id = requestData["id"]
+    requestData.pop("id")
+    userDataToUpdate = requestData
+    try:
+        sqlConnector.update("farm_produce", userDataToUpdate, {"id": id})
+        return {"code": 0, "message": "success"}
+    except:
+        return {"code": 1, "message": "error editing produce"}
